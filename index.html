@@ -130,7 +130,7 @@
     .hs-dot { width: 8px; height: 8px; background: var(--hs); border-radius: 50%; }
 
     /* ── HERO ────────────────────────────────────────── */
-    #hero { padding: 100px 0 80px; position: relative; }
+    #hero { padding: 100px 0 48px; position: relative; }
     #hero::before {
       content: '';
       position: absolute; inset: 0;
@@ -395,6 +395,22 @@
     .benefits-header { max-width: 640px; margin-bottom: 64px; }
     .benefits-header .t-label { margin-bottom: 16px; display: block; }
     .benefits-header .t-h2   { margin-bottom: 16px; }
+    .benefit-pills { display: flex; flex-wrap: nowrap; flex-direction: row; gap: 10px; margin-top: 24px; }
+    #pills-strip {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+      background: var(--black);
+    }
+    #pills-strip .benefit-pills { margin-top: 0; }
+    .bpill {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size: 13px; font-weight: 500; color: var(--green);
+      border: 1px solid rgba(60,217,108,.35);
+      border-radius: 999px; padding: 8px 16px;
+      background: rgba(60,217,108,.05);
+      box-shadow: 0 0 16px rgba(60,217,108,.08);
+      white-space: nowrap;
+    }
     .benefits-grid {
       display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 2px; background: var(--border);
@@ -667,7 +683,7 @@
     }
     .pc {
       position: absolute;
-      width: 256px;
+      width: 280px;
       border-radius: 20px;
       padding: 26px 28px;
       will-change: transform;
@@ -716,14 +732,14 @@
     /* Orange/green numbers stay vibrant */
     .proof-stage .pc:hover .pc-num.orange { color: #d94e1a; }
     .proof-stage .pc:hover .pc-num.green  { color: #1fa84a; }
-    /* Positions — 7 cards across the stage */
-    .pc:nth-child(1) { top: 0px;   left: 0%;   }
-    .pc:nth-child(2) { top: 180px; left: 14%;  }
-    .pc:nth-child(3) { top: 20px;  left: 32%;  }
-    .pc:nth-child(4) { top: 240px; left: 48%;  }
-    .pc:nth-child(5) { top: 60px;  left: 64%;  }
-    .pc:nth-child(6) { top: 480px; left: 20%;  }
-    .pc:nth-child(7) { top: 320px; left: 76%;  }
+    /* Positions — scattered organic */
+    .pc:nth-child(1) { top: 0px;   left: 2%;   }
+    .pc:nth-child(2) { top: 160px; left: 30%;  }
+    .pc:nth-child(3) { top: 40px;  left: 60%;  }
+    .pc:nth-child(4) { top: 360px; left: 6%;   }
+    .pc:nth-child(5) { top: 280px; left: 46%;  }
+    .pc:nth-child(6) { top: 500px; left: 64%;  }
+    .pc:nth-child(7) { top: 440px; left: 24%;  }
 
     /* Stat card */
     .pc-num {
@@ -737,15 +753,16 @@
       margin-bottom: 6px; line-height: 1.4;
     }
     .pc-sub {
-      font-size: 12px; color: rgba(240,244,255,.38); line-height: 1.6;
+      font-size: 13px; color: rgba(240,244,255,.6); line-height: 1.65;
+      white-space: normal;
     }
     /* Review card */
-    .stars { color: #FBBF24; font-size: 11px; margin-bottom: 12px; letter-spacing: 3px; }
+    .stars { color: #FBBF24; font-size: 11px; margin-bottom: 10px; letter-spacing: 3px; }
     .pc blockquote {
-      font-size: 13px; line-height: 1.75; color: rgba(240,244,255,.72);
-      margin-bottom: 18px; font-style: normal;
+      font-size: 13px; line-height: 1.7; color: rgba(240,244,255,.72);
+      margin: 0; font-style: normal;
     }
-    .card-author { margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.07); }
+    .card-author { margin-top: 14px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.07); }
     .card-author .name { font-weight: 600; font-size: 13px; color: var(--white); }
     .card-author .role { font-size: 11px; color: rgba(240,244,255,.38); margin-top: 3px; }
     /* Orange accent bar on stat cards */
@@ -1072,6 +1089,15 @@
       </div>
     </div><!-- /hero-layout -->
 
+  </div>
+</section>
+
+<!-- PILLS STRIP ──────────────────────────────────────── -->
+<section id="pills-strip">
+  <div class="benefit-pills" style="justify-content:center;">
+    <span class="bpill"><svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M8 1L9.5 6.5H15L10.5 9.5L12 15L8 12L4 15L5.5 9.5L1 6.5H6.5L8 1Z" fill="currentColor"/></svg> SalesAi doesn't replace HubSpot. It gives it a voice.</span>
+    <span class="bpill"><svg width="10" height="10" viewBox="0 0 16 16" fill="none"><path d="M9.5 1L3 9.5H8L6.5 15L14 6.5H9L9.5 1Z" fill="currentColor"/></svg> Every inbound call answered.</span>
+    <span class="bpill"><svg width="10" height="10" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="M5.5 8.5l2 2 3-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Works inside the workflows you already have.</span>
   </div>
 </section>
 
