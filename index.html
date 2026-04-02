@@ -754,6 +754,14 @@
     }
     .form-step.visible { max-height: 160px; opacity: 1; margin-top: 12px; }
     .form-step:first-child { max-height: 160px; opacity: 1; margin-top: 0; }
+    .form-step.done { max-height: 0 !important; opacity: 0 !important; margin-top: 0 !important; }
+    .form-done-row {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 13px; color: rgba(240,244,255,.45);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      padding-bottom: 8px; margin-bottom: 2px;
+    }
+    .form-done-row span { color: rgba(240,244,255,.75); font-weight: 500; }
     .form-field {
       display: flex; flex-direction: column; gap: 6px; text-align: left;
     }
@@ -861,7 +869,6 @@
         </p>
 
         <div class="hero-btns">
-          <a href="#call-agent" class="btn btn-green btn-lg">Experience Our Ai Agent</a>
         </div>
       </div>
 
@@ -1268,7 +1275,6 @@
           You'll hear how it sounds, how it handles objections, and how it books
           a meeting on the spot. Most people are sold within 90 seconds.
         </p>
-        <a href="#call-agent" class="btn btn-green">Experience Our Ai Agent</a>
       </div>
 
       <div class="agent-card">
@@ -1413,25 +1419,27 @@
       document.getElementById(currentInputId).focus();
       return;
     }
-    // Hide the Next button in the current step
-    const currentBtn = document.querySelector('#' + currentId + ' .form-next');
-    if (currentBtn) {
-      currentBtn.style.opacity = '0';
-      currentBtn.style.maxHeight = '0';
-      currentBtn.style.overflow = 'hidden';
-      currentBtn.style.marginTop = '0';
-      currentBtn.style.pointerEvents = 'none';
-      currentBtn.style.transition = 'opacity .2s, max-height .3s, margin .3s';
-    }
-    const nextStep = document.getElementById(nextId);
-    nextStep.classList.add('visible');
+    // Hide the field and Next button in the current step, show summary
+    const currentStep = document.getElementById(currentId);
+    const field = currentStep.querySelector('.form-field');
+    const btn = currentStep.querySelector('.form-next');
+    if (field) field.style.display = 'none';
+    if (btn) btn.style.display = 'none';
+    // Insert compact summary row
+    const labelEl = currentStep.querySelector('label');
+    const labelText = labelEl ? labelEl.textContent : '';
+    const doneRow = document.createElement('div');
+    doneRow.className = 'form-done-row';
+    doneRow.innerHTML = labelText + ' <span>' + currentVal + '</span>';
+    currentStep.appendChild(doneRow);
+    // Reveal next step
+    document.getElementById(nextId).classList.add('visible');
     setTimeout(() => {
       if (nextInputId) document.getElementById(nextInputId).focus();
     }, 380);
-    // Show phone triggers submit reveal via input listener
+    // Phone input triggers submit button
     if (nextId === 'step-phone') {
-      const phoneInput = document.getElementById('lf-phone');
-      phoneInput.addEventListener('input', function() {
+      document.getElementById('lf-phone').addEventListener('input', function() {
         const submit = document.getElementById('step-submit');
         if (this.value.replace(/\D/g,'').length >= 7) {
           submit.classList.add('visible');
