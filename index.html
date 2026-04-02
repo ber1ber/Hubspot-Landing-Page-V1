@@ -402,16 +402,33 @@
     }
     .benefit {
       background: var(--card); padding: 40px 36px;
-      position: relative; transition: background .2s, border-color .2s;
+      position: relative;
+      transition: background .25s, border-color .25s, box-shadow .25s;
     }
-    .benefit:hover { background: #1E1E1E; }
+    .benefit:hover {
+      background: #e8e8e8;
+      border-color: var(--green);
+      box-shadow: 0 0 32px rgba(60,217,108,.35), 0 0 0 1px var(--green);
+    }
+    .benefit:hover .b-number {
+      color: rgba(60,217,108,.5);
+      text-shadow: 0 0 40px rgba(60,217,108,.5), 0 0 80px rgba(60,217,108,.2);
+    }
+    .benefit:hover .t-h3 { color: #111111; }
+    .benefit:hover .t-body { color: #444444; }
+    .benefit:hover .b-tag {
+      color: #0C0C0C;
+      background: rgba(60,217,108,.15);
+      border-color: var(--green);
+    }
     .b-number {
       font-family: var(--f-head); font-size: 72px; font-weight: 800;
       line-height: 1; color: rgba(255,255,255,.06);
       margin-bottom: 24px; letter-spacing: -.03em;
+      transition: color .25s, text-shadow .25s;
     }
-    .benefit .t-h3  { margin-bottom: 14px; }
-    .benefit .t-body { font-size: 15px; }
+    .benefit .t-h3  { margin-bottom: 14px; transition: color .25s; }
+    .benefit .t-body { font-size: 15px; transition: color .25s; }
     .b-tag {
       display: inline-block; margin-top: 20px;
       font-size: 11px; font-weight: 600; letter-spacing: .1em;
@@ -419,6 +436,7 @@
       background: rgba(60,217,108,.08);
       border: 1px solid rgba(60,217,108,.2);
       border-radius: 4px; padding: 4px 10px;
+      transition: color .25s, background .25s, border-color .25s;
     }
 
     /* ── VIDEO ───────────────────────────────────────── */
@@ -1055,33 +1073,6 @@
   </div>
 </section>
 
-<!-- PROOF PILLS ──────────────────────────────────────── -->
-<div class="section-pills">
-  <div class="spill">
-    <div class="spill-icon">
-      <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M9.5 1L3 9.5H8L6.5 15L14 6.5H9L9.5 1Z" fill="currentColor"/></svg>
-    </div>
-    Calls every lead in under 60 seconds
-  </div>
-  <div class="spill">
-    <div class="spill-icon">
-      <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="currentColor" stroke-width="1.6"/><path d="M5.5 8.5l2 2 3-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
-    Zero rep effort required
-  </div>
-  <div class="spill">
-    <div class="spill-icon">
-      <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><rect x="1.5" y="2.5" width="13" height="11" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M1.5 6h13" stroke="currentColor" stroke-width="1.4"/><path d="M5 1.5v2M11 1.5v2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-    </div>
-    Full CRM logging on every call
-  </div>
-  <div class="spill">
-    <div class="spill-icon">
-      <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M8 1L9.5 6.5H15L10.5 9.5L12 15L8 12L4 15L5.5 9.5L1 6.5H6.5L8 1Z" fill="currentColor" stroke="currentColor" stroke-width="0.5"/></svg>
-    </div>
-    Meetings booked without a human
-  </div>
-</div>
 
 <!-- VIDEO ────────────────────────────────────────────── -->
 <section id="video-section">
