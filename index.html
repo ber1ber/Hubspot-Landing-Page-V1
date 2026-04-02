@@ -180,7 +180,7 @@
       display: flex; align-items: center; gap: 8px;
       white-space: nowrap;
       position: relative;
-      width: 210px; justify-content: flex-start;
+      width: 250px; justify-content: flex-start;
     }
     .wf-card .wf-icon {
       width: 22px; height: 22px; border-radius: 5px;
@@ -655,25 +655,108 @@
     }
 
     /* ── SOCIAL PROOF ────────────────────────────────── */
-    #proof { background: var(--black); }
-    .proof-top { text-align: center; margin-bottom: 56px; }
+    #proof { background: var(--black); overflow: hidden; }
+    .proof-top { text-align: center; margin-bottom: 60px; }
     .proof-top .t-label { display: block; margin-bottom: 14px; }
-    .cards-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 16px; margin-bottom: 40px;
+
+    /* Unified proof stage */
+    .proof-stage {
+      position: relative;
+      min-height: 780px;
+      margin: 0 auto;
     }
-    .card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 28px; transition: border-color .2s;
+    .pc {
+      position: absolute;
+      width: 256px;
+      border-radius: 20px;
+      padding: 26px 28px;
+      will-change: transform;
+      cursor: default;
+      /* Chrome/glass finish */
+      background: linear-gradient(150deg, rgba(36,36,36,.98) 0%, rgba(18,18,18,.99) 100%);
+      border: 1px solid rgba(255,255,255,.1);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.09),
+        inset 0 -1px 0 rgba(0,0,0,.4),
+        0 24px 56px rgba(0,0,0,.45);
+      transition: background .3s, border-color .3s, box-shadow .3s, filter .3s, opacity .3s, transform .3s;
     }
-    .card:hover { border-color: rgba(255,255,255,.2); }
-    .stars { color: #FBBF24; font-size: 13px; margin-bottom: 14px; letter-spacing: 2px; }
-    .card blockquote {
-      font-size: 15px; line-height: 1.65; color: var(--white);
-      margin-bottom: 20px; font-style: normal;
+    .pc::before {
+      content: '';
+      position: absolute; inset: 0;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(255,255,255,.055) 0%, transparent 55%);
+      pointer-events: none;
+      transition: opacity .3s;
     }
-    .card-author .name { font-weight: 600; font-size: 14px; }
-    .card-author .role { font-size: 13px; color: var(--white); }
+    /* Dim + blur all cards when any is hovered */
+    .proof-stage:hover .pc {
+      filter: blur(2px);
+      opacity: 0.35;
+    }
+    /* Hovered card — pop up, invert to white, green border glow */
+    .proof-stage .pc:hover {
+      filter: none;
+      opacity: 1;
+      transform: translateY(-6px) scale(1.03) !important;
+      background: #e8e8e8;
+      border-color: var(--green);
+      box-shadow:
+        0 0 0 1px var(--green),
+        0 0 40px rgba(60,217,108,.3),
+        0 32px 72px rgba(0,0,0,.5);
+    }
+    .proof-stage .pc:hover::before { opacity: 0; }
+    /* Flip text dark on hover */
+    .proof-stage .pc:hover .pc-label { color: #111; }
+    .proof-stage .pc:hover .pc-sub   { color: rgba(0,0,0,.5); }
+    .proof-stage .pc:hover blockquote { color: rgba(0,0,0,.75); }
+    .proof-stage .pc:hover .card-author .name { color: #111; }
+    .proof-stage .pc:hover .card-author .role { color: rgba(0,0,0,.45); }
+    /* Orange/green numbers stay vibrant */
+    .proof-stage .pc:hover .pc-num.orange { color: #d94e1a; }
+    .proof-stage .pc:hover .pc-num.green  { color: #1fa84a; }
+    /* Positions — 7 cards across the stage */
+    .pc:nth-child(1) { top: 0px;   left: 0%;   }
+    .pc:nth-child(2) { top: 180px; left: 14%;  }
+    .pc:nth-child(3) { top: 20px;  left: 32%;  }
+    .pc:nth-child(4) { top: 240px; left: 48%;  }
+    .pc:nth-child(5) { top: 60px;  left: 64%;  }
+    .pc:nth-child(6) { top: 480px; left: 20%;  }
+    .pc:nth-child(7) { top: 320px; left: 76%;  }
+
+    /* Stat card */
+    .pc-num {
+      font-family: var(--f-head); font-size: 38px; font-weight: 800;
+      letter-spacing: -.02em; line-height: 1; margin-bottom: 10px;
+    }
+    .pc-num.orange { color: #FF6B35; }
+    .pc-num.green  { color: var(--green); }
+    .pc-label {
+      font-size: 14px; font-weight: 600; color: var(--white);
+      margin-bottom: 6px; line-height: 1.4;
+    }
+    .pc-sub {
+      font-size: 12px; color: rgba(240,244,255,.38); line-height: 1.6;
+    }
+    /* Review card */
+    .stars { color: #FBBF24; font-size: 11px; margin-bottom: 12px; letter-spacing: 3px; }
+    .pc blockquote {
+      font-size: 13px; line-height: 1.75; color: rgba(240,244,255,.72);
+      margin-bottom: 18px; font-style: normal;
+    }
+    .card-author { margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.07); }
+    .card-author .name { font-weight: 600; font-size: 13px; color: var(--white); }
+    .card-author .role { font-size: 11px; color: rgba(240,244,255,.38); margin-top: 3px; }
+    /* Orange accent bar on stat cards */
+    .pc.stat::after {
+      content: '';
+      position: absolute; bottom: 0; left: 28px; right: 28px;
+      height: 2px; border-radius: 0 0 2px 2px;
+      background: linear-gradient(90deg, #FF6B35, transparent);
+      opacity: .5;
+    }
+    .pc.stat.alt::after { background: linear-gradient(90deg, var(--green), transparent); }
     .metrics-strip {
       display: grid; grid-template-columns: repeat(4, 1fr);
       gap: 12px;
@@ -818,9 +901,19 @@
       .benefits-grid { grid-template-columns: 1fr; }
       .hs-grid       { grid-template-columns: 1fr; }
       .call-grid     { grid-template-columns: 1fr; }
-      .cards-grid    { grid-template-columns: 1fr; }
       .metrics-strip { grid-template-columns: repeat(2, 1fr); }
       .offer-banner  { padding: 36px 28px; }
+      /* Stack proof cards on tablet/mobile */
+      .proof-stage {
+        position: static; min-height: unset;
+        display: flex; flex-direction: column;
+        gap: 16px; align-items: stretch;
+      }
+      .pc {
+        position: static !important;
+        width: 100% !important;
+        transform: none !important;
+      }
     }
     @media (max-width: 600px) {
       section { padding: 64px 0; }
@@ -979,34 +1072,6 @@
       </div>
     </div><!-- /hero-layout -->
 
-    <div class="hero-proof">
-      <div class="stat">
-        <div class="stat-num">1M+</div>
-        <div class="stat-desc">Calls powered for teams</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">30+<span style="font-size:16px;font-weight:600;color:var(--green);margin-left:2px;">hrs</span></div>
-        <div class="stat-desc">Saved per rep per week</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">60<span style="font-size:16px;font-weight:600;color:var(--green);margin-left:2px;">sec</span></div>
-        <div class="stat-desc">Speed to first contact</div>
-      </div>
-      <div class="stat" style="min-width:200px;">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-          <div style="width:28px;height:28px;background:rgba(60,217,108,.15);border:1px solid rgba(60,217,108,.3);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="6" cy="5" r="2.5" stroke="#3cd96c" stroke-width="1.3"/>
-              <path d="M1.5 13c0-2.485 2.015-4.5 4.5-4.5s4.5 2.015 4.5 4.5" stroke="#3cd96c" stroke-width="1.3" stroke-linecap="round"/>
-              <circle cx="11.5" cy="5" r="1.8" stroke="#3cd96c" stroke-width="1.2"/>
-              <path d="M13.5 12c0-1.657-1.12-3.07-2.67-3.42" stroke="#3cd96c" stroke-width="1.2" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <div class="stat-num" style="font-size:16px;font-weight:700;margin-bottom:0;letter-spacing:-.01em;">Team Capacity Boost</div>
-        </div>
-        <div class="stat-desc" style="font-size:13px;line-height:1.5;">Each rep handles <strong style="color:var(--green);font-weight:600;">2x more accounts</strong> without adding headcount</div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1312,8 +1377,17 @@
       <h2 class="t-h2" style="margin-bottom:12px;">Real HubSpot teams.<br><span class="g-text">Real results.</span></h2>
     </div>
 
-    <div class="cards-grid">
-      <div class="card">
+    <div class="proof-stage" id="proof-stage">
+
+      <!-- Stat: 2500 -->
+      <div class="pc stat" data-vy="0.07" data-vx="-0.012">
+        <div class="pc-num orange">2,500</div>
+        <div class="pc-label">Speed to Lead</div>
+        <div class="pc-sub">Ai handled 2,500 inbound calls and delivered 261 live transfers — ensuring no potential client goes unanswered.</div>
+      </div>
+
+      <!-- Review: Brandon -->
+      <div class="pc" data-vy="0.04" data-vx="0.008">
         <div class="stars">★★★★★</div>
         <blockquote>"We were running HubSpot for two years and never realized how many leads were dying in our workflows. SalesAi plugged in and within a week our reps were showing up to warm meetings."</blockquote>
         <div class="card-author">
@@ -1321,15 +1395,40 @@
           <div class="role">Founder, StritchCo</div>
         </div>
       </div>
-      <div class="card">
+
+      <!-- Stat: $600K -->
+      <div class="pc stat alt" data-vy="0.09" data-vx="0.015">
+        <div class="pc-num green">$600K</div>
+        <div class="pc-label">Capturing Failed Payments</div>
+        <div class="pc-sub">In under 60 days, Ai supported payment outreach at scale — helping teams generate $600K and outperform traditional rep performance.</div>
+      </div>
+
+      <!-- Review: David -->
+      <div class="pc" data-vy="0.05" data-vx="-0.01">
         <div class="stars">★★★★★</div>
-        <blockquote>"Speed to lead was always our problem. I never thought AI could sound human enough to actually work. I was wrong. Our booking rate jumped in the first 30 days."</blockquote>
+        <blockquote>"Speed to lead was always our problem. I never thought Ai could sound human enough to actually work. I was wrong. Our booking rate jumped in the first 30 days."</blockquote>
         <div class="card-author">
           <div class="name">David Marinac</div>
           <div class="role">VP Sales, ABC Packaging</div>
         </div>
       </div>
-      <div class="card">
+
+      <!-- Stat: Top 10-20% -->
+      <div class="pc stat" data-vy="0.11" data-vx="0.009">
+        <div class="pc-num orange">Top 10–20%</div>
+        <div class="pc-label">Qualifications &amp; Screening</div>
+        <div class="pc-sub">From thousands of applicants to the top 10–20% of qualified candidates — so your recruiters spend time placing, not screening.</div>
+      </div>
+
+      <!-- Stat: 3 days -->
+      <div class="pc stat alt" data-vy="0.06" data-vx="-0.014">
+        <div class="pc-num green">3 days</div>
+        <div class="pc-label">Re-engaging Past Leads</div>
+        <div class="pc-sub">In just 3 days, Ai helped drive multiple booked appointments per day, quickly rebuilding a full calendar from close to zero.</div>
+      </div>
+
+      <!-- Review: Andrew -->
+      <div class="pc" data-vy="0.08" data-vx="0.011">
         <div class="stars">★★★★★</div>
         <blockquote>"Marketing and sales used to fight about lead quality constantly. SalesAi ended that debate. Every lead gets called now. We can finally see what's actually working."</blockquote>
         <div class="card-author">
@@ -1337,6 +1436,7 @@
           <div class="role">CEO, FX Enterprises</div>
         </div>
       </div>
+
     </div>
 
   </div>
@@ -1419,19 +1519,21 @@
       document.getElementById(currentInputId).focus();
       return;
     }
-    // Hide the field and Next button in the current step, show summary
+    // Collapse the current step entirely
     const currentStep = document.getElementById(currentId);
-    const field = currentStep.querySelector('.form-field');
-    const btn = currentStep.querySelector('.form-next');
-    if (field) field.style.display = 'none';
-    if (btn) btn.style.display = 'none';
-    // Insert compact summary row
     const labelEl = currentStep.querySelector('label');
     const labelText = labelEl ? labelEl.textContent : '';
-    const doneRow = document.createElement('div');
-    doneRow.className = 'form-done-row';
-    doneRow.innerHTML = labelText + ' <span>' + currentVal + '</span>';
-    currentStep.appendChild(doneRow);
+    // Fade out then hide
+    currentStep.style.transition = 'opacity .2s';
+    currentStep.style.opacity = '0';
+    setTimeout(() => {
+      currentStep.style.display = 'none';
+      // Insert compact summary row before the next step
+      const doneRow = document.createElement('div');
+      doneRow.className = 'form-done-row';
+      doneRow.innerHTML = labelText + ' <span>' + currentVal + '</span>';
+      document.getElementById(nextId).before(doneRow);
+    }, 200);
     // Reveal next step
     document.getElementById(nextId).classList.add('visible');
     setTimeout(() => {
@@ -1480,6 +1582,24 @@
     const form = document.querySelector('.lead-form');
     form.innerHTML = '<p style="font-size:18px;font-weight:600;color:var(--green);text-align:center;padding:16px 0;">You\'re in. Expect a call shortly. ✓</p>';
   }
+
+  // Parallax scroll — X and Y per card
+  (function() {
+    const cards = document.querySelectorAll('#proof-stage .pc');
+    function onScroll() {
+      cards.forEach(el => {
+        const vy = parseFloat(el.dataset.vy) || 0.07;
+        const vx = parseFloat(el.dataset.vx) || 0;
+        const rect = el.parentElement.getBoundingClientRect();
+        const centerOffset = rect.top + rect.height / 2 - window.innerHeight / 2;
+        const ty = centerOffset * vy * -1;
+        const tx = centerOffset * vx * -1;
+        el.style.transform = 'translate(' + tx + 'px, ' + ty + 'px)';
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
 </script>
 </body>
 </html>
