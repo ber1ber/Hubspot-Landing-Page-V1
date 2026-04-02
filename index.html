@@ -904,6 +904,59 @@
     .form-submit.visible { max-height: 80px; opacity: 1; margin-top: 12px; }
     .form-submit .btn { width: 100%; justify-content: center; }
 
+    /* ── TERMS ───────────────────────────────────────── */
+    .tos-wrap {
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .tos-intro {
+      font-size: 11px; color: rgba(240,244,255,.4); line-height: 1.6; margin-bottom: 14px;
+    }
+    .tos-link { color: rgba(240,244,255,.55); text-decoration: underline; }
+    .tos-check {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-bottom: 10px; cursor: pointer;
+    }
+    .tos-check input { display: none; }
+    .tos-box {
+      flex-shrink: 0; width: 15px; height: 15px; margin-top: 1px;
+      border: 1px solid rgba(240,244,255,.25); border-radius: 3px;
+      background: transparent; transition: background .2s, border-color .2s;
+      position: relative;
+    }
+    .tos-check input:checked + .tos-box {
+      background: var(--green); border-color: var(--green);
+    }
+    .tos-check input:checked + .tos-box::after {
+      content: '';
+      position: absolute; left: 4px; top: 1px;
+      width: 5px; height: 9px;
+      border: 2px solid #000; border-top: none; border-left: none;
+      transform: rotate(45deg);
+    }
+    .tos-text { font-size: 11px; color: rgba(240,244,255,.45); line-height: 1.55; }
+    .tos-readmore {
+      display: flex; align-items: center; gap: 5px; margin-top: 10px;
+      font-size: 11px; color: rgba(240,244,255,.4); background: none;
+      border: none; cursor: pointer; padding: 0;
+      transition: color .2s;
+    }
+    .tos-readmore:hover { color: rgba(240,244,255,.7); }
+    .tos-arrow { transition: transform .25s; }
+    .tos-readmore.open .tos-arrow { transform: rotate(180deg); }
+    .tos-expanded {
+      max-height: 0; overflow: hidden; opacity: 0;
+      transition: max-height .35s ease, opacity .3s ease;
+      margin-top: 0;
+    }
+    .tos-expanded.visible {
+      max-height: 200px; opacity: 1; margin-top: 10px;
+    }
+    .tos-expanded p {
+      font-size: 11px; color: rgba(240,244,255,.35); line-height: 1.6; margin-bottom: 8px;
+    }
+
     /* ── FOOTER ──────────────────────────────────────── */
     footer {
       background: var(--black); border-top: 1px solid var(--border);
@@ -1526,6 +1579,29 @@
           <button type="submit" class="btn btn-green btn-lg" onclick="submitLead()">Get My Free Demo</button>
         </div>
 
+        <!-- Terms -->
+        <div class="tos-wrap" id="tos-wrap" style="display:none;">
+          <p class="tos-intro">SalesAi is committed to protecting and respecting your privacy. By submitting the form, you agree to the <a href="#" class="tos-link">Terms &amp; Conditions</a> and <a href="#" class="tos-link">Privacy Policy</a>.</p>
+          <label class="tos-check">
+            <input type="checkbox" id="tos-marketing"/>
+            <span class="tos-box"></span>
+            <span class="tos-text">Yes, send me marketing text messages and communications.</span>
+          </label>
+          <label class="tos-check">
+            <input type="checkbox" id="tos-updates"/>
+            <span class="tos-box"></span>
+            <span class="tos-text">Yes, I agree to receive non-marketing updates and information such as billing or account updates at the number provided.</span>
+          </label>
+          <button type="button" class="tos-readmore" onclick="this.classList.toggle('open');document.getElementById('tos-expanded').classList.toggle('visible');">
+            <svg class="tos-arrow" width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Read more
+          </button>
+          <div class="tos-expanded" id="tos-expanded">
+            <p>By checking one or more of the boxes above and submitting my phone number, I agree to text messages from SalesAi regarding the categories selected above. Message frequency may vary. Message &amp; data rates may apply. Reply STOP to opt out or HELP for help.</p>
+            <p>By clicking submit, I consent to allow SalesAi to store and process my personal information.</p>
+          </div>
+        </div>
+
       </form>
     </div>
   </div>
@@ -1567,6 +1643,8 @@
     }, 380);
     // Phone input triggers submit button
     if (nextId === 'step-phone') {
+      // Show TOS when phone step appears
+      document.getElementById('tos-wrap').style.display = 'block';
       document.getElementById('lf-phone').addEventListener('input', function() {
         const submit = document.getElementById('step-submit');
         if (this.value.replace(/\D/g,'').length >= 7) {
@@ -1608,6 +1686,20 @@
     const form = document.querySelector('.lead-form');
     form.innerHTML = '<p style="font-size:18px;font-weight:600;color:var(--green);text-align:center;padding:16px 0;">You\'re in. Expect a call shortly. ✓</p>';
   }
+
+  // Enter key triggers next step
+  document.getElementById('lf-name').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); nextStep('step-name','step-company','lf-name','lf-company'); }
+  });
+  document.getElementById('lf-company').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); nextStep('step-company','step-email','lf-company','lf-email'); }
+  });
+  document.getElementById('lf-email').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); nextStep('step-email','step-phone','lf-email','lf-phone'); }
+  });
+  document.getElementById('lf-phone').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') { e.preventDefault(); submitLead(); }
+  });
 
   // Parallax scroll — X and Y per card
   (function() {
