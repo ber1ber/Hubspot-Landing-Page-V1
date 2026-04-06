@@ -130,7 +130,7 @@
     .hs-dot { width: 8px; height: 8px; background: var(--hs); border-radius: 50%; }
 
     /* ── HERO ────────────────────────────────────────── */
-    #hero { padding: 100px 0 48px; position: relative; }
+    #hero { padding: 100px 0 0; position: relative; }
     #hero::before {
       content: '';
       position: absolute; inset: 0;
@@ -168,6 +168,7 @@
     .wf {
       display: flex; flex-direction: column; align-items: center;
       position: relative; user-select: none;
+      will-change: transform;
     }
     .wf-card {
       background: #1C1C1C;
@@ -957,6 +958,10 @@
       font-size: 11px; color: rgba(240,244,255,.35); line-height: 1.6; margin-bottom: 8px;
     }
 
+
+    /* ── MOBILE HERO FORM (hidden on desktop) ────────── */
+    .hero-mobile-form { display: none; }
+
     /* ── FOOTER ──────────────────────────────────────── */
     footer {
       background: var(--black); border-top: 1px solid var(--border);
@@ -966,14 +971,17 @@
     footer a { color: var(--muted); }
     footer a:hover { color: var(--white); }
 
-    /* ── RESPONSIVE ──────────────────────────────────── */
+    /* ── RESPONSIVE — TABLET (≤900px) ───────────────── */
     @media (max-width: 900px) {
+      .wrap { padding: 0 24px; }
+      .hero-layout { grid-template-columns: 1fr; gap: 40px; }
+      .hero-right  { display: none; }
       .benefits-grid { grid-template-columns: 1fr; }
       .hs-grid       { grid-template-columns: 1fr; }
       .call-grid     { grid-template-columns: 1fr; }
       .metrics-strip { grid-template-columns: repeat(2, 1fr); }
       .offer-banner  { padding: 36px 28px; }
-      /* Stack proof cards on tablet/mobile */
+      /* Proof stage — stack vertically */
       .proof-stage {
         position: static; min-height: unset;
         display: flex; flex-direction: column;
@@ -984,15 +992,82 @@
         width: 100% !important;
         transform: none !important;
       }
+      /* Pills wrap on tablet */
+      .benefit-pills { flex-wrap: wrap; }
     }
+
+    /* ── RESPONSIVE — MOBILE (≤600px) ───────────────── */
     @media (max-width: 600px) {
-      section { padding: 64px 0; }
-      .t-display { font-size: 46px; }
-      .hero-btns { flex-direction: column; }
-      .hero-proof { gap: 20px; }
+      section { padding: 56px 0; }
+
+      /* Nav */
+      .nav-pill  { display: none; }
+      nav { padding: 0 16px; }
+      .nav-inner .btn { font-size: 11px !important; padding: 6px 10px !important; }
+
+      /* Typography */
+      .t-display { font-size: 38px; line-height: 1.1; }
+      .t-h2      { font-size: 28px; }
+      .t-h3      { font-size: 20px; }
+
+      /* Hero */
+      #hero { padding: 72px 0 40px; }
+      .hero-layout { grid-template-columns: 1fr; }
+      .hero-right  { display: none; }
+      .hero-btns   { flex-direction: column; gap: 10px; }
+      .hero-btns .btn { width: 100%; justify-content: center; text-align: center; }
+      .hero-tag    { flex-wrap: wrap; gap: 6px; }
+
+      /* Pills strip — hidden on mobile */
+      #pills-strip { display: none; }
+
+      /* Mobile hero form */
+      .hero-mobile-form {
+        display: block;
+        margin-top: 32px;
+        background: linear-gradient(135deg, rgba(60,217,108,.12) 0%, rgba(60,217,108,.04) 100%);
+        border: 1.5px solid var(--green);
+        border-radius: 20px;
+        padding: 28px 24px;
+        position: relative; overflow: hidden;
+        box-shadow: 0 0 40px rgba(60,217,108,.18), 0 0 80px rgba(60,217,108,.08);
+      }
+      .hero-mobile-form::before {
+        content: '';
+        position: absolute; top: 0; left: 0; right: 0; height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(60,217,108,.5), transparent);
+      }
+
+      /* Logos */
+      #logos { padding: 32px 0; }
+
+      /* Benefits */
+      .benefits-grid { grid-template-columns: 1fr; gap: 12px; }
+      .benefit { padding: 28px 24px; }
+      .b-number { font-size: 52px; }
+
+      /* HubSpot section */
+      .hs-grid { grid-template-columns: 1fr; gap: 32px; }
+      .hs-visual { display: none; }
+
+      /* Call section */
+      .call-grid { grid-template-columns: 1fr; }
+      .call-card { padding: 28px 24px; }
+      .call-num  { font-size: 28px; }
+
+      /* Proof section */
+      #proof { padding: 48px 0; }
+      .proof-top { margin-bottom: 32px; }
+
+      /* CTA / form */
+      #cta { padding: 56px 0; }
+      .final-push { padding: 36px 24px; border-radius: 20px; }
+      .lead-form input { font-size: 16px; } /* prevents iOS zoom */
+      .form-next { font-size: 14px; }
+
+      /* Misc */
       .stat-div  { display: none; }
       .metrics-strip { grid-template-columns: 1fr 1fr; }
-      .nav-pill  { display: none; }
     }
   </style>
 </head>
@@ -1001,7 +1076,7 @@
 <!-- NAV ─────────────────────────────────────────────── -->
 <nav>
   <div class="wrap nav-inner">
-    <a href="#" class="logo">Sales<span>Ai</span></a>
+    <a href="#"><img src="Trusted/salesai-logo.png" alt="SalesAi" style="height:19px;width:auto;display:block;"/></a>
     <div style="display:flex;align-items:center;gap:10px;">
       <a href="tel:+14633070490" class="btn btn-ghost" style="font-size:14px;padding:10px 22px;">Test Agent</a>
       <a href="#cta" class="btn btn-solid" style="font-size:14px;padding:10px 22px;">Book Demo</a>
@@ -1033,11 +1108,49 @@
 
         <div class="hero-btns">
         </div>
+
+        <!-- Mobile-only form -->
+        <div class="hero-mobile-form">
+          <span class="t-label" style="display:block;margin-bottom:18px;">Get your free workflow build</span>
+          <form onsubmit="return false;" id="mobile-hero-form">
+            <div class="form-step" id="mstep-name">
+              <div class="form-field">
+                <label for="mlf-name">Your name</label>
+                <input id="mlf-name" type="text" placeholder="First name" autocomplete="given-name" style="font-size:16px;"/>
+              </div>
+              <button type="button" class="form-next" onclick="mNextStep('mstep-name','mstep-company','mlf-name','mlf-company')">Next <span class="arrow">→</span></button>
+            </div>
+            <div class="form-step" id="mstep-company">
+              <div class="form-field">
+                <label for="mlf-company">Company name</label>
+                <input id="mlf-company" type="text" placeholder="Your company" autocomplete="organization" style="font-size:16px;"/>
+              </div>
+              <button type="button" class="form-next" onclick="mNextStep('mstep-company','mstep-email','mlf-company','mlf-email')">Next <span class="arrow">→</span></button>
+            </div>
+            <div class="form-step" id="mstep-email">
+              <div class="form-field">
+                <label for="mlf-email">Work email</label>
+                <input id="mlf-email" type="email" placeholder="you@company.com" autocomplete="email" style="font-size:16px;"/>
+              </div>
+              <button type="button" class="form-next" onclick="mNextStep('mstep-email','mstep-phone','mlf-email','mlf-phone')">Next <span class="arrow">→</span></button>
+            </div>
+            <div class="form-step" id="mstep-phone">
+              <div class="form-field">
+                <label for="mlf-phone">Phone number</label>
+                <input id="mlf-phone" type="tel" placeholder="+1 (555) 000-0000" autocomplete="tel" style="font-size:16px;"/>
+              </div>
+            </div>
+            <div class="form-submit" id="mstep-submit">
+              <button type="submit" class="btn btn-green btn-lg" onclick="mSubmit()" style="width:100%;justify-content:center;">Get My Free Demo</button>
+            </div>
+          </form>
+        </div>
+
       </div>
 
       <!-- RIGHT: HubSpot workflow diagram -->
       <div class="hero-right">
-        <div class="wf">
+        <div class="wf" id="wf-diagram">
 
           <!-- Trigger (blurred) -->
           <div class="wf-card wf-trigger">
@@ -1139,8 +1252,10 @@
 
           </div>
         </div>
+
       </div>
     </div><!-- /hero-layout -->
+
 
   </div>
 </section>
@@ -1687,6 +1802,7 @@
     form.innerHTML = '<p style="font-size:18px;font-weight:600;color:var(--green);text-align:center;padding:16px 0;">You\'re in. Expect a call shortly. ✓</p>';
   }
 
+
   // Enter key triggers next step
   document.getElementById('lf-name').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') { e.preventDefault(); nextStep('step-name','step-company','lf-name','lf-company'); }
@@ -1700,6 +1816,19 @@
   document.getElementById('lf-phone').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') { e.preventDefault(); submitLead(); }
   });
+
+  // Subtle parallax on workflow diagram
+  (function() {
+    const wf = document.getElementById('wf-diagram');
+    if (!wf) return;
+    function moveWf() {
+      const rect = wf.getBoundingClientRect();
+      const centerOffset = (window.innerHeight / 2) - (rect.top + rect.height / 2);
+      wf.style.transform = 'translateY(' + (centerOffset * 0.07) + 'px)';
+    }
+    window.addEventListener('scroll', moveWf, { passive: true });
+    moveWf();
+  })();
 
   // Parallax scroll — X and Y per card
   (function() {
@@ -1718,6 +1847,49 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
   })();
+
+  // Mobile hero form logic
+  function mNextStep(currentId, nextId, currentInputId, nextInputId) {
+    const currentVal = document.getElementById(currentInputId).value.trim();
+    if (!currentVal) { document.getElementById(currentInputId).focus(); return; }
+    const currentStep = document.getElementById(currentId);
+    const labelEl = currentStep.querySelector('label');
+    const labelText = labelEl ? labelEl.textContent : '';
+    currentStep.style.transition = 'opacity .2s';
+    currentStep.style.opacity = '0';
+    setTimeout(() => {
+      currentStep.style.display = 'none';
+      const doneRow = document.createElement('div');
+      doneRow.className = 'form-done-row';
+      doneRow.innerHTML = labelText + ' <span>' + currentVal + '</span>';
+      document.getElementById(nextId).before(doneRow);
+    }, 200);
+    document.getElementById(nextId).classList.add('visible');
+    setTimeout(() => { if (nextInputId) document.getElementById(nextInputId).focus(); }, 380);
+    if (nextId === 'mstep-phone') {
+      document.getElementById('mlf-phone').addEventListener('input', function() {
+        const submit = document.getElementById('mstep-submit');
+        if (this.value.replace(/\D/g,'').length >= 7) submit.classList.add('visible');
+        else submit.classList.remove('visible');
+      });
+    }
+  }
+  function mSubmit() {
+    const name = document.getElementById('mlf-name').value.trim();
+    const company = document.getElementById('mlf-company').value.trim();
+    const email = document.getElementById('mlf-email').value.trim();
+    const phone = document.getElementById('mlf-phone').value.trim();
+    if (!name || !company || !email || !phone) return;
+    document.getElementById('mobile-hero-form').innerHTML = '<p style="font-size:16px;font-weight:600;color:var(--green);padding:16px 0;">You\'re in. Expect a call shortly. ✓</p>';
+  }
+  // Mobile form enter keys
+  ['mlf-name','mlf-company','mlf-email'].forEach((id, i) => {
+    const pairs = [['mstep-name','mstep-company','mlf-name','mlf-company'],['mstep-company','mstep-email','mlf-company','mlf-email'],['mstep-email','mstep-phone','mlf-email','mlf-phone']];
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('keydown', function(e) { if (e.key==='Enter') { e.preventDefault(); mNextStep(...pairs[i]); }});
+  });
+  const mPhone = document.getElementById('mlf-phone');
+  if (mPhone) mPhone.addEventListener('keydown', function(e) { if (e.key==='Enter') { e.preventDefault(); mSubmit(); }});
 </script>
 </body>
 </html>
